@@ -5,10 +5,12 @@ require('dotenv').config();
 
 //DB CONFIG
 require('./database/config').dbConnection();
+//RUTAS API
 const loginRoute = require('./routes/auth');
+const usuarioRoute = require('./routes/usuarios');
+const mensajeRoute = require('./routes/mensajes');
 
 //App de Express
-
 app.use(express.json());
 
 //Server node Socket
@@ -24,6 +26,8 @@ app.use(express.static(publicPath));
 //Definicion de rutas
 
 app.use('/api/login', loginRoute);
+app.use('/api/usuario', usuarioRoute);
+app.use('/api/mensaje', mensajeRoute);
 
 server.listen(port, ( err) => {
     if(err) throw new Error(err);

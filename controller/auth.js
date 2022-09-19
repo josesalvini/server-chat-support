@@ -48,14 +48,14 @@ const login = async (req, res = response) => {
 
     try {
 
-        const usuarioDB = await Usuario.findOne({email});
-        if(!usuarioDB){
+        const usuario = await Usuario.findOne({email});
+        if(!usuario){
             return res.status(404).json({
                 ok: false,
                 msg: 'Los datos ingresados no son validos.'
             });
         }
-        const validPassword = bcrypt.compareSync(password, usuarioDB.password );
+        const validPassword = bcrypt.compareSync(password, usuario.password );
         if(!validPassword){
             return res.status(400).json({
                 ok: false,
@@ -64,11 +64,11 @@ const login = async (req, res = response) => {
         }
 
         //Generar JWT
-        const token = await generarJWT(usuarioDB.id);
+        const token = await generarJWT(usuario.id);
 
         res.status(200).json({
             ok: true,
-            usuarioDB,
+            usuario,
             token
         });
     } catch (error) {
@@ -90,9 +90,9 @@ const renewToken = async (req, res = response) => {
     //Generar nuevo JWT
     const token = await generarJWT(uid);
     try {
-        const usuarioDB = await Usuario.findById({_id: uid});
+        const usuario = await Usuario.findById({_id: uid});
 
-        if(!usuarioDB){
+        if(!usuario){
             return res.status(404).json({
                 ok: false,
                 msg: 'Los datos del token no son validos.'
@@ -100,7 +100,7 @@ const renewToken = async (req, res = response) => {
         }
         res.status(200).json({
             ok: true,
-            usuarioDB,
+            usuario,
             token
         });
     } catch (error) {

@@ -9,7 +9,7 @@ const { validateJWT } = require('../middlewares/validate_token');
 
 const router = Router();
 
-router.post('/new',[
+router.post('/register',[
     check('nombre', 'El nombre es obligatorio.').not().isEmpty(),
     check('email', 'El email es obligatorio.').not().isEmpty().isEmail(),
     check('password', 'El paswword es obligatorio.').not().isEmpty(),
